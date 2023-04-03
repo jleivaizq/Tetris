@@ -10,10 +10,20 @@ pygame.display.set_caption("Tetris")
 
 class Piece(sprite.Sprite):
 
-    def __init__(self):
+    sprite_loc = {
+        'square': (18, 18, 76, 76),
+        's1': (180, 18, 114, 76),
+        's2': (569, 0, 77, 112),
+        't': (0, 227, 112, 77),
+        'l1': (0, 411, 112, 77),
+        'l2': (0, 621, 112, 76),
+        'line': (36, 793, 39, 150),
+    }
+
+    def __init__(self, piece_type):
         sprite.Sprite.__init__(self)
-        self.spriteSheet = pygame.image.load("sprites/sheet.png").convert_alpha()
-        self.image = pygame.transform.scale(self.spriteSheet.subsurface((0, 0, 100, 100)), (100, 100))
+        self.spriteSheet = pygame.image.load('sprites/sheet.png').convert_alpha()
+        self.image = self.spriteSheet.subsurface(Piece.sprite_loc[piece_type])
         self.rect = self.image.get_rect()
         self.rect.midtop = (window.get_width() / 2, 0)
 
@@ -23,7 +33,7 @@ class Piece(sprite.Sprite):
 
 if __name__ == '__main__':
 
-    piece = Piece()
+    piece = Piece('line')
     sprites_group = pygame.sprite.GroupSingle()
     sprites_group.add(piece)
 
