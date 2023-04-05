@@ -2,6 +2,7 @@ from pygame import sprite
 from pygame.locals import *
 import pygame
 import sys
+import random
 
 pygame.init()
 window = pygame.display.set_mode((500, 800))
@@ -33,7 +34,7 @@ class Piece(sprite.Sprite):
 
 if __name__ == '__main__':
 
-    piece = Piece('line')
+    piece = Piece(random.choice(list(Piece.sprite_loc.keys())))
     sprites_group = pygame.sprite.GroupSingle()
     sprites_group.add(piece)
 
