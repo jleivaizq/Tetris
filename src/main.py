@@ -21,7 +21,7 @@ class Piece(sprite.Sprite):
         'line': (36, 793, 39, 150),
     }
 
-    def __init__(self, piece_type):
+    def __init__(self, piece_type: str):
         sprite.Sprite.__init__(self)
         self.spriteSheet = pygame.image.load('sprites/sheet.png').convert_alpha()
         self.image = self.spriteSheet.subsurface(Piece.sprite_loc[piece_type])
@@ -34,11 +34,20 @@ class Piece(sprite.Sprite):
         pass
 
     def move(self, x=0, y=0):
-        if self.rect.centerx + x >= window.get_width() or self.rect.centerx + x < 0:
-            return
-        if self.rect.bottom + y >= window.get_height() or self.rect.top + y < 0:
-            return
-        self.rect.center = (self.rect.centerx + x, self.rect.centery + y)
+
+        if self.rect.right + x > window.get_width():
+            self.rect.right = window.get_width()
+        elif self.rect.left + x < 0:
+            self.rect.left = 0
+        else:
+            self.rect.centerx += x
+
+        if self.rect.bottom + y > window.get_height():
+            self.rect.bottom = window.get_height()
+        elif self.rect.top + y < 0:
+            self.rect.top = 0
+        else:
+            self.rect.centery += y
 
     def fall(self, g=1):
         self.move(0, self.speed * g)
