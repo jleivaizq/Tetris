@@ -4,7 +4,7 @@ import pygame
 import sys
 
 
-from src.Piece import Piece
+from Piece import Piece
 
 pygame.init()
 window = pygame.display.set_mode((500, 800))
@@ -47,6 +47,11 @@ if __name__ == '__main__':
                     gravity = 1
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                     elasticity = 1
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_a:
+                    piece.rotate(clock_wise=False)
+                if event.key == pygame.K_d:
+                    piece.rotate(clock_wise=True)
 
             if event.type == pygame.QUIT:
                 pygame.quit()
