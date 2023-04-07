@@ -20,7 +20,7 @@ class Piece(sprite.Sprite):
     def generate_random_piece() -> str:
         return random.choice(list(Piece.sprite_loc.keys()))
 
-    def __init__(self, piece_type: str, window: Surface):
+    def __init__(self, piece_type: str, window: Surface, speed: int):
         sprite.Sprite.__init__(self)
         self.window = window
         self.piece_type = piece_type
@@ -30,7 +30,7 @@ class Piece(sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.midtop = (window.get_width() / 2, 0)
 
-        self.speed = 10
+        self.speed = speed
 
     def update(self, dt, w):
         pass
