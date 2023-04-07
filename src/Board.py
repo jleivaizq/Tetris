@@ -11,18 +11,22 @@ class Board:
         self.speed = 10
         self.vertical_speed = 1
         self.horizontal_speed = 0
-        self.pixels_h = 0
-        self.current_piece = Piece(Piece.generate_random_piece(), window, self.speed)
-        self.sprites_group = pygame.sprite.GroupSingle()
+        self.current_piece = None
+        self.sprites_group = pygame.sprite.Group()
+
+    def generate_new_piece(self):
+        self.current_piece = Piece(Piece.generate_random_piece(), self.window, self.speed)
         self.sprites_group.add(self.current_piece)
 
     def update(self):
+        if self.current_piece is None or self.current_piece.rect.bottom == self.window.get_rect().bottom:
+            self.generate_new_piece()
+
         dt = self.clock.tick(30) / 1000
         self.sprites_group.draw(self.window)
 
-        for p in self.sprites_group:
-            p.move(self.speed * self.horizontal_speed)
-            p.fall(self.vertical_speed)
+        self.current_piece.move(self.speed * self.horizontal_speed)
+        self.current_piece.fall(self.vertical_speed)
 
         self.window.fill((0, 0, 0))
         self.sprites_group.update(dt, self.window)
