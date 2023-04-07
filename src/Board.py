@@ -19,7 +19,6 @@ class Board:
     def update(self):
         dt = self.clock.tick(30) / 1000
         self.sprites_group.draw(self.window)
-        print(self.vertical_speed)
 
         for p in self.sprites_group:
             p.move(self.speed * self.horizontal_speed)
