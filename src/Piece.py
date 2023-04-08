@@ -58,3 +58,11 @@ class Piece(sprite.Sprite):
         list_pos: list = Piece.sprite_loc[self.piece_type]
         self.current_pos = (self.current_pos + 1 if clock_wise else self.current_pos - 1) % len(list_pos)
         self.image = self.spriteSheet.subsurface(list_pos[self.current_pos])
+        top = self.rect.top
+        left = self.rect.left
+
+        self.rect = self.image.get_rect()
+        self.rect.top = top
+        self.rect.left = left
+        sprite.mask = pygame.mask.from_surface(self.image)
+
