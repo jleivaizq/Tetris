@@ -5,6 +5,7 @@ from Piece import Piece
 
 
 class Board:
+
     def __init__(self, window: Surface, clock: pygame.time.Clock):
         self.clock = clock
         self.window = window
@@ -12,18 +13,25 @@ class Board:
         self.vertical_speed = 1
         self.horizontal_speed = 0
         self.current_piece = None
+        self.current_group = pygame.sprite.GroupSingle()
         self.sprites_group = pygame.sprite.Group()
 
-    def generate_new_piece(self):
-        self.current_piece = Piece(Piece.generate_random_piece(), self.window, self.speed)
-        self.sprites_group.add(self.current_piece)
+    def generate_new_piece(self) -> Piece:
+        return Piece(Piece.generate_random_piece(), self.window, self.speed)
 
     def update(self):
-        if self.current_piece is None or self.current_piece.rect.bottom == self.window.get_rect().bottom:
-            self.generate_new_piece()
+        if self.current_piece is None:
+            self.current_piece = self.generate_new_piece()
+            self.current_group.add(self.current_piece)
+
+        collisions = pygame.sprite.spritecollide(self.current_piece, self.sprites_group, False)
+        if self.current_piece.rect.bottom == self.window.get_rect().bottom or len(collisions) > 0:
+            self.sprites_group.add(self.current_piece)
+            self.current_group.remove(self.current_piece)
+            self.current_piece = self.generate_new_piece()
+            self.current_group.add(self.current_piece)
 
         dt = self.clock.tick(30) / 1000
-        self.sprites_group.draw(self.window)
 
         self.current_piece.move(self.speed * self.horizontal_speed)
         self.current_piece.fall(self.vertical_speed)
@@ -31,6 +39,9 @@ class Board:
         self.window.fill((0, 0, 0))
         self.sprites_group.update(dt, self.window)
         self.sprites_group.draw(self.window)
+
+        self.current_group.update(dt, self.window)
+        self.current_group.draw(self.window)
 
     def set_horizontal_speed(self, s: float):
         self.horizontal_speed = s

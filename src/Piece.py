@@ -25,12 +25,12 @@ class Piece(sprite.Sprite):
         self.window = window
         self.piece_type = piece_type
         self.current_pos = 0
+        self.speed = speed
         self.spriteSheet = pygame.image.load('sprites/sheet.png').convert_alpha()
         self.image = self.spriteSheet.subsurface(Piece.sprite_loc[self.piece_type][self.current_pos])
         self.rect = self.image.get_rect()
         self.rect.midtop = (window.get_width() / 2, 0)
-
-        self.speed = speed
+        sprite.mask = pygame.mask.from_surface(self.image)
 
     def update(self, dt, w):
         pass
