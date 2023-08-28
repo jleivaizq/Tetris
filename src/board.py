@@ -71,5 +71,3 @@ class Board:
         for off_y, row in enumerate(self.matrix):
             if off_y < self.rows and all(cell != 0 for cell in row):
                 self.remove_line(off_y)
-
-
